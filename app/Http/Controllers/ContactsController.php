@@ -65,4 +65,9 @@ class ContactsController extends Controller
 
         return response()->json($message);
     }
+    public function getUser($id)
+    {
+        return User::where("id",$id)->get();
+    }
+
 }
