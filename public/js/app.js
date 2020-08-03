@@ -60216,7 +60216,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             selectedContact: null,
             messages: [],
-            contacts: []
+            contacts: [],
+            cardVisible: true
         };
     },
     mounted: function mounted() {
@@ -60234,6 +60235,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        kapatClick: function kapatClick() {
+            this.cardVisible = false;
+        },
         basla: function basla(id) {
             var _this2 = this;
 
@@ -61034,28 +61038,8 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card" }, [
-    _vm._m(0),
-    _vm._v(" "),
+  return _c("div", { class: [!_vm.cardVisible ? "invisible" : "", "card"] }, [
     _c(
-      "div",
-      { staticClass: "card-body chat-app" },
-      [
-        _c("Conversation", {
-          attrs: { contact: _vm.selectedContact, messages: _vm.messages },
-          on: { new: _vm.saveNewMessage }
-        })
-      ],
-      1
-    )
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
       "div",
       {
         staticClass: "chatboxInner",
@@ -61071,13 +61055,27 @@ var staticRenderFns = [
               title: "Kapat",
               src:
                 "https://gcdn.bionluk.com/site/icon/tansel_chat_head_close.svg"
-            }
+            },
+            on: { click: _vm.kapatClick }
           })
         ])
       ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "card-body chat-app" },
+      [
+        _c("Conversation", {
+          attrs: { contact: _vm.selectedContact, messages: _vm.messages },
+          on: { new: _vm.saveNewMessage }
+        })
+      ],
+      1
     )
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

@@ -35,3 +35,4 @@ Route::get('/serkan', function () {
 Route::get('/nuri', function () {
     return view('nuri-profil');
 });
+

@@ -1,11 +1,11 @@
 <template>
-<div class="card">
+<div :class="[!cardVisible ? 'invisible' : '', 'card']">
     <div class="chatboxInner" style="background-color: rgb(0, 0, 0); opacity: 1;">
         <div  class="user-information-div">
            
         </div>
         <div  class="icon-div">
-            <img title="Kapat" src="https://gcdn.bionluk.com/site/icon/tansel_chat_head_close.svg" class="chatbox-icons">
+            <img title="Kapat" @click="kapatClick" src="https://gcdn.bionluk.com/site/icon/tansel_chat_head_close.svg" class="chatbox-icons">
         </div>
     </div>
   <div class="card-body chat-app">
@@ -34,7 +34,8 @@
             return {
                 selectedContact: null,
                 messages: [],
-                contacts: []
+                contacts: [],
+                cardVisible:true,
             };
         },
         mounted() {
@@ -51,6 +52,9 @@
                 });
         },
         methods: {
+            kapatClick(){
+                this.cardVisible=false;
+            },
             basla(id){
                 axios.get(`/getuser/${id}`)
                     .then((response) => {
