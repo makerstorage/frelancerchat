@@ -9,7 +9,7 @@
 				<a href="/nuri">Goto Nuri Profil</a>
 			<h1>Serkan profil</h1>
             {{--                Serkan - vue kullandigim icin template yaptim--}}
-            <chat-start></chat-start>
+            <chat-start :id="10"></chat-start>
             {{--                end Serkan --}}
         </div>
     </div>
