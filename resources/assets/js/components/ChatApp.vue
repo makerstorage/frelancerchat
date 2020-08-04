@@ -1,45 +1,47 @@
 <template>
-<div :class="[!cardVisible ? 'invisible' : '', 'card']">
-    <div class="chatboxInner" style="background-color: rgb(0, 0, 0); opacity: 1;">
-        <div  class="user-information-div">
-           
+    <div :class="[!chat_status ? 'invisible' : '', 'card']">
+        <div class="chatboxInner" style="background-color: rgb(0, 0, 0); opacity: 1;">
+            <div  class="user-information-div">
+
+            </div>
+            <div  class="icon-div">
+                <img title="Kapat" @click="chatStatus" src="https://gcdn.bionluk.com/site/icon/tansel_chat_head_close.svg" class="chatbox-icons">
+            </div>
         </div>
-        <div  class="icon-div">
-            <img title="Kapat" @click="kapatClick" src="https://gcdn.bionluk.com/site/icon/tansel_chat_head_close.svg" class="chatbox-icons">
+        <div class="card-body chat-app">
+            <Conversation :contact="selectedContact" :messages="messages" @new="saveNewMessage"/>
+            <!--  <ContactsList :contacts="contacts" @selected="startConversationWith"/>  -->
         </div>
     </div>
-  <div class="card-body chat-app">
-        <Conversation :contact="selectedContact" :messages="messages" @new="saveNewMessage"/>
-        <!--  <ContactsList :contacts="contacts" @selected="startConversationWith"/>  -->
-  </div>
-</div>
 </template>
-
+<!-- vuex kullandim -->
 <script>
     import Conversation from './Conversation';
     import ContactsList from './ContactsList';
+    import { mapState, mapActions } from 'vuex';
 
     export default {
         props: {
             user: {
                 type: Object,
                 required: true
-            },
-             konuswith: {
-               type: Number,
-               required: true
-             }
+            }
         },
         data() {
             return {
                 selectedContact: null,
                 messages: [],
-                contacts: [],
-                cardVisible:true,
+                contacts: []
             };
         },
+        computed: {
+            ...mapState([
+                'chat_status',
+                'with_id'
+            ]),
+        },
         mounted() {
-            this.basla(this.konuswith);
+            this.basla(this.with_id);
 
             Echo.private(`messages.${this.user.id}`)
                 .listen('NewMessage', (e) => {
@@ -52,17 +54,20 @@
                 });
         },
         methods: {
-            kapatClick(){
-                this.cardVisible=false;
+            ...mapActions([
+                'setChatStatus',
+            ]),
+            chatStatus(){
+                this.setChatStatus(false);
             },
             basla(id){
                 axios.get(`/getuser/${id}`)
                     .then((response) => {
-                     //   console.log(response.data);
+                        //   console.log(response.data);
                         this.selectedContact = response.data[0];
                         this.startConversationWith(this.selectedContact);
                     });
-                
+
             },
             startConversationWith(contact) {
                 this.updateUnreadCount(contact, true);
@@ -105,59 +110,59 @@
 
 
 <style lang="scss" scoped>
-.card {
-    width: 375px;
-    z-index: 100;
-    position: fixed;
-    bottom: 0;
-    right: 260px;
-    background-color: #fff;
-    -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
-    box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    .card {
+        width: 375px;
+        z-index: 100;
+        position: fixed;
+        bottom: 0;
+        right: 260px;
+        background-color: #fff;
+        -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
+        box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
 
 
-}
-.chatboxInner, .user-information-div{
+    }
+    .chatboxInner, .user-information-div{
 
-    display: flex;
-    height: 50px;
-    background-color: #2d3640;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    border: none;
-    -webkit-box-shadow: rgba(0,0,0,.1) 0 5px 10px 0;
-   
-}
-.user-information-div{
-    font-size: 16px;
-    font-weight: 500;
-    color: #fff;
-    margin-left: 20px;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    flex-direction: row;
-}
-.icon-div{
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    padding-right: 20px;
-}
-.chat-app {
+        display: flex;
+        height: 50px;
+        background-color: #2d3640;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        border: none;
+        -webkit-box-shadow: rgba(0,0,0,.1) 0 5px 10px 0;
 
-    height: 600px;
-    width: 350px;
-    position: relative;
-    bottom: 0;
-    margin: auto 10px 0px;
-}
+    }
+    .user-information-div{
+        font-size: 16px;
+        font-weight: 500;
+        color: #fff;
+        margin-left: 20px;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+    }
+    .icon-div{
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        padding-right: 20px;
+    }
+    .chat-app {
+
+        height: 600px;
+        width: 350px;
+        position: relative;
+        bottom: 0;
+        margin: auto 10px 0px;
+    }
 </style>

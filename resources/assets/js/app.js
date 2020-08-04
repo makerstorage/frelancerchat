@@ -9,6 +9,17 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+
+//serkan  - state manager olarak vuex kullandim
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import storeData from "./store/index"
+
+const store = new Vuex.Store(
+    storeData
+);
+//end serkan
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -18,5 +29,6 @@ window.Vue = require('vue');
 Vue.component('chat-app', require('./components/ChatApp.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    store
 });
