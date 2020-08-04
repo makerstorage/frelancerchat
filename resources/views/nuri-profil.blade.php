@@ -8,7 +8,9 @@
         <div class="col-sm-12">
 				<a href="/serkan">Goto Serkan Profil</a>
 				<h1>Nuri Profil</h1>
-				<button type="button" class="btn btn-primary btn-lg">Mesaj Gönder</button>
+            {{--                Serkan - vue kullandigim icin template yaptim--}}
+            <chat-start></chat-start>
+            {{--                end Serkan --}}
         </div>
     </div>
 </div>

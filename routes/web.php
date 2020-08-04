@@ -31,8 +31,14 @@ Route::post('/conversation/send', 'ContactsController@send');
 Route::get('/getuser/{id}', 'ContactsController@getUser');
 Route::get('/serkan', function () {
     return view('serkan-profil');
+    //serkan - buraya profile girdigimizde id elimizde olacagindan view e direk aktarabiliriz.
+    $with_id = 5;
+    //end serkan
 });
 Route::get('/nuri', function () {
+    //serkan
+    $with_id = 15;
+    //end serkan
     return view('nuri-profil');
 });
 
