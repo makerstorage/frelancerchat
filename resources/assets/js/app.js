@@ -27,6 +27,7 @@ const store = new Vuex.Store(
  */
 
 Vue.component('chat-app', require('./components/ChatApp.vue'));
+Vue.component('chat-start', require('./components/ChatStart.vue'));
 
 const app = new Vue({
     el: '#app',
